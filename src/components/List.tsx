@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
 import * as styles from '../styles/List.css';
@@ -24,6 +24,12 @@ export const List: React.FC<ListProps> = ({ list }) => {
     )!;
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [editedListTitle, setEditedListTitle] = useState(list.title);
+    const taskIds = useSelector(
+        (state: RootState) => state.tasks.tasksByList[list.id] || []
+    );
+    const tasks = useSelector((state: RootState) =>
+        taskIds.map((id) => state.tasks.tasks[id])
+    );
 
     const handleAddTask = () => {
         if (newTaskTitle.trim()) {
@@ -43,11 +49,7 @@ export const List: React.FC<ListProps> = ({ list }) => {
     const handleSaveListTitle = () => {
         if (editedListTitle.trim()) {
             dispatch(
-                updateListTitleWithActivity(
-                    boardId,
-                    list.id,
-                    editedListTitle.trim()
-                )
+                updateListTitleWithActivity(list.id, editedListTitle.trim())
             );
         }
         setIsEditingTitle(false);
@@ -94,7 +96,7 @@ export const List: React.FC<ListProps> = ({ list }) => {
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
-                        {list.tasks.map((task, index) => (
+                        {tasks.map((task, index) => (
                             <TaskItem key={task.id} task={task} index={index} />
                         ))}
                         {provided.placeholder}

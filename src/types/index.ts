@@ -1,20 +1,19 @@
-export interface Task {
+export interface Board {
     id: string;
     title: string;
-    description: string;
-    listId: string;
 }
 
 export interface List {
     id: string;
+    boardId: string;
     title: string;
-    tasks: Task[];
 }
 
-export interface Board {
+export interface Task {
     id: string;
+    listId: string;
     title: string;
-    lists: List[];
+    description: string;
 }
 
 export interface Activity {

@@ -24,7 +24,7 @@ export const BoardItem: React.FC<BoardItemProps> = ({
     handleEditBoard,
     handleDeleteBoard,
     setEditedBoardTitle,
-    handleSaveBoardTitle,
+    handleSaveBoardTitle
 }) => {
     return (
         <li

@@ -11,7 +11,9 @@ import * as styles from '../styles/BoardList.css';
 import { BoardItem } from './mapBoard';
 
 export const BoardList: React.FC = () => {
-    const boards = useSelector((state: RootState) => state.boards.boards);
+    const boards = useSelector((state: RootState) =>
+        state.boards.allIds.map((id) => state.boards.boards[id])
+    );
     const selectedBoardId = useSelector(
         (state: RootState) => state.boards.selectedBoardId
     );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TaskModal } from './TaskModal';
 import { Task as TaskType } from '../types';
 import type { AppDispatch } from '../store';
@@ -19,6 +19,12 @@ export const Task: React.FC<TaskProps> = ({ task }) => {
     const [editedTaskTitle, setEditedTaskTitle] = useState(task.title);
     const dispatch = useDispatch<AppDispatch>();
 
+    useEffect(() => {
+        if (!isEditingTitle) {
+            setEditedTaskTitle(task.title);
+        }
+    }, [task.title, isEditingTitle]);
+
     const handleClick = () => {
         if (!isEditingTitle) {
             setModalOpen(true);
@@ -33,17 +39,14 @@ export const Task: React.FC<TaskProps> = ({ task }) => {
 
     const handleEditTaskTitle = (e: React.MouseEvent) => {
         e.stopPropagation();
+        setEditedTaskTitle(task.title);
         setIsEditingTitle(true);
     };
 
     const handleSaveTaskTitle = () => {
-        if (editedTaskTitle.trim()) {
+        if (editedTaskTitle.trim() && editedTaskTitle !== task.title) {
             dispatch(
-                updateTaskTitleWithActivity(
-                    task.listId,
-                    task.id,
-                    editedTaskTitle.trim()
-                )
+                updateTaskTitleWithActivity(task.id, editedTaskTitle.trim())
             );
         }
         setIsEditingTitle(false);
@@ -65,6 +68,7 @@ export const Task: React.FC<TaskProps> = ({ task }) => {
                         }}
                         className={styles.taskTitleInput}
                         onClick={(e) => e.stopPropagation()}
+                        autoFocus
                     />
                 ) : (
                     <span className={styles.taskTitle}>{task.title}</span>
