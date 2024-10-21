@@ -1,4 +1,3 @@
-import { renderBoardList } from './mapBoard';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectBoard } from '../store/boardsSlice';
@@ -9,6 +8,7 @@ import {
     updateBoardTitleWithActivity
 } from '../store/thunkActions';
 import * as styles from '../styles/BoardList.css';
+import { BoardItem } from './mapBoard';
 
 export const BoardList: React.FC = () => {
     const boards = useSelector((state: RootState) => state.boards.boards);
@@ -54,17 +54,20 @@ export const BoardList: React.FC = () => {
         <div className={styles.boardList}>
             <h2>Boards</h2>
             <ul>
-                {renderBoardList(
-                    boards,
-                    selectedBoardId,
-                    editingBoardId,
-                    editedBoardTitle,
-                    handleSelectBoard,
-                    handleEditBoard,
-                    handleDeleteBoard,
-                    setEditedBoardTitle,
-                    handleSaveBoardTitle
-                )}
+                {boards.map((board) => (
+                    <BoardItem
+                        key={board.id}
+                        board={board}
+                        selectedBoardId={selectedBoardId}
+                        editingBoardId={editingBoardId}
+                        editedBoardTitle={editedBoardTitle}
+                        handleSelectBoard={handleSelectBoard}
+                        handleEditBoard={handleEditBoard}
+                        handleDeleteBoard={handleDeleteBoard}
+                        setEditedBoardTitle={setEditedBoardTitle}
+                        handleSaveBoardTitle={handleSaveBoardTitle}
+                    />
+                ))}
             </ul>
             <div>
                 <input

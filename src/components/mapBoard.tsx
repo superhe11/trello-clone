@@ -1,22 +1,32 @@
 import * as styles from '../styles/BoardList.css';
 
-interface Board {
-    id: string;
-    title: string;
+interface BoardItemProps {
+    board: {
+        id: string;
+        title: string;
+    };
+    selectedBoardId: string | null;
+    editingBoardId: string | null;
+    editedBoardTitle: string;
+    handleSelectBoard: (id: string) => void;
+    handleEditBoard: (id: string, title: string) => void;
+    handleDeleteBoard: (id: string, title: string) => void;
+    setEditedBoardTitle: (title: string) => void;
+    handleSaveBoardTitle: (id: string) => void;
 }
 
-export const renderBoardList = (
-    boards: Board[],
-    selectedBoardId: string | null,
-    editingBoardId: string | null,
-    editedBoardTitle: string,
-    handleSelectBoard: (id: string) => void,
-    handleEditBoard: (id: string, title: string) => void,
-    handleDeleteBoard: (id: string, title: string) => void,
-    setEditedBoardTitle: (title: string) => void,
-    handleSaveBoardTitle: (id: string) => void
-) =>
-    boards.map((board) => (
+export const BoardItem: React.FC<BoardItemProps> = ({
+    board,
+    selectedBoardId,
+    editingBoardId,
+    editedBoardTitle,
+    handleSelectBoard,
+    handleEditBoard,
+    handleDeleteBoard,
+    setEditedBoardTitle,
+    handleSaveBoardTitle,
+}) => {
+    return (
         <li
             key={board.id}
             className={`${styles.boardItem} ${
@@ -60,4 +70,5 @@ export const renderBoardList = (
                 </button>
             </div>
         </li>
-    ));
+    );
+};

@@ -1,10 +1,14 @@
-import * as styles from '../styles/ActivityLog.css';
 import { format } from 'timeago.js';
-import { Activity } from '../types';
+import * as styles from '../styles/ActivityLog.css';
+import { Activity as ActivityType } from '../types';
 
-export const mapActivities = (activities: Activity[]) => {
-    return activities.map((act) => (
-        <li key={act.id} className={styles.activityItem}>
+interface ActivityProps {
+    activity: ActivityType;
+}
+
+export const Activity: React.FC<ActivityProps> = ({ activity }) => {
+    return (
+        <li className={styles.activityItem}>
             <div className={styles.activityHeader}>
                 <img
                     src="https://via.placeholder.com/40"
@@ -14,11 +18,11 @@ export const mapActivities = (activities: Activity[]) => {
                 <div>
                     <span className={styles.userName}>You</span>
                     <span className={styles.timeAgo}>
-                        {format(act.timestamp)}
+                        {format(activity.timestamp)}
                     </span>
                 </div>
             </div>
-            <div className={styles.activityMessage}>{act.message}</div>
+            <div className={styles.activityMessage}>{activity.message}</div>
         </li>
-    ));
+    );
 };

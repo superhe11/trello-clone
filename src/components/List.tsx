@@ -1,15 +1,15 @@
-import { renderTaskList } from './mapTasks';
-import { updateListTitleWithActivity } from '../store/thunkActions';
-import { useState } from 'react';
-import { List as ListType } from '../types';
-import { Droppable } from 'react-beautiful-dnd';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Droppable } from 'react-beautiful-dnd';
+import * as styles from '../styles/List.css';
+import { List as ListType } from '../types';
 import type { RootState, AppDispatch } from '../store';
 import {
     addTaskWithActivity,
-    deleteListWithActivity
+    deleteListWithActivity,
+    updateListTitleWithActivity
 } from '../store/thunkActions';
-import * as styles from '../styles/List.css';
+import { TaskItem } from './mapTasks';
 
 interface ListProps {
     list: ListType;
@@ -94,7 +94,9 @@ export const List: React.FC<ListProps> = ({ list }) => {
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
-                        {renderTaskList(list.tasks)}
+                        {list.tasks.map((task, index) => (
+                            <TaskItem key={task.id} task={task} index={index} />
+                        ))}
                         {provided.placeholder}
                         <div className={styles.addTaskContainer}>
                             <input

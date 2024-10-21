@@ -1,11 +1,16 @@
 import { Draggable } from 'react-beautiful-dnd';
-import { Task } from '../components/Task';
 import * as styles from '../styles/List.css';
 import { Task as TaskType } from '../types';
+import { Task } from './Task';
 
-export const renderTaskList = (tasks: TaskType[]) =>
-    tasks.map((task, index) => (
-        <Draggable draggableId={task.id} index={index} key={task.id}>
+interface TaskItemProps {
+    task: TaskType;
+    index: number;
+}
+
+export const TaskItem: React.FC<TaskItemProps> = ({ task, index }) => {
+    return (
+        <Draggable draggableId={task.id} index={index}>
             {(provided) => (
                 <div
                     className={styles.taskContainer}
@@ -17,4 +22,5 @@ export const renderTaskList = (tasks: TaskType[]) =>
                 </div>
             )}
         </Draggable>
-    ));
+    );
+};
